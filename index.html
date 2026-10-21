@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#081225">
+  <meta name="description" content="An interactive educational simulation of EC2 CPU monitoring with CloudWatch alarms and SNS email notifications.">
+  <title>AWS Cloud Monitoring Lab | #BuildwithCloudmessenger</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="ambient" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="AWS Cloud Monitoring Lab home">
+      <span class="brand-mark">☁</span><span><strong>AWS Cloud Monitoring Lab</strong><small>EC2 CPU Utilization · CloudWatch Alarms · SNS Notifications</small></span>
+    </a>
+    <div class="header-actions">
+      <span class="pill"><i class="dot green"></i> LOCAL SIMULATION</span>
+      <button id="themeToggle" class="icon-btn" type="button" aria-label="Switch to light theme" title="Toggle light/dark theme">☼ <span>Theme</span></button>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="intro">
+      <div>
+        <p class="eyebrow">CLOUD SUPPORT ENGINEER · INTERACTIVE LAB</p>
+        <h1>Catch the spike.<br><span>Send the signal.</span></h1>
+        <p class="intro-copy">Follow Santhosh as he monitors Ravi’s online store, detects high CPU usage, and routes an alert through Amazon SNS.</p>
+      </div>
+      <div class="story-card">
+        <div class="avatar">S</div>
+        <div><strong>Santhosh’s learning story</strong><p>One instance. One alarm. A timely notification.</p><span class="tag">#BuildwithCloudmessenger</span></div>
+      </div>
+    </section>
+
+    <div class="disclaimer"><span>ⓘ</span> Educational simulation only. No live AWS resources are created or monitored.</div>
+
+    <div class="workspace">
+      <aside class="steps-panel panel">
+        <div class="panel-heading"><div><p class="eyebrow">YOUR LEARNING PATH</p><h2>Nine steps</h2></div><span id="stepCount" class="count">01 / 09</span></div>
+        <nav id="stepNav" class="step-nav" aria-label="Learning steps">
+          <button class="step-link active" data-step="0"><span class="step-number">01</span><span><strong>EC2 Instance</strong><small>Launch the web server</small></span></button>
+          <button class="step-link" data-step="1"><span class="step-number">02</span><span><strong>CPU Metrics</strong><small>Measure the workload</small></span></button>
+          <button class="step-link" data-step="2"><span class="step-number">03</span><span><strong>CloudWatch</strong><small>Observe the metrics</small></span></button>
+          <button class="step-link" data-step="3"><span class="step-number">04</span><span><strong>Alarm Configuration</strong><small>Set evaluation rules</small></span></button>
+          <button class="step-link" data-step="4"><span class="step-number">05</span><span><strong>Threshold Breach</strong><small>Increase CPU load</small></span></button>
+          <button class="step-link" data-step="5"><span class="step-number">06</span><span><strong>Alarm State</strong><small>Understand state changes</small></span></button>
+          <button class="step-link" data-step="6"><span class="step-number">07</span><span><strong>Amazon SNS</strong><small>Route the alarm message</small></span></button>
+          <button class="step-link" data-step="7"><span class="step-number">08</span><span><strong>Email Alert</strong><small>Receive the notification</small></span></button>
+          <button class="step-link" data-step="8"><span class="step-number">09</span><span><strong>Complete Architecture</strong><small>Review the workflow</small></span></button>
+        </nav>
+        <div class="sidebar-footer"><span class="mini-check">✓</span><span>Learn by changing the simulation</span></div>
+      </aside>
+
+      <section class="main-column">
+        <section class="diagram-panel panel">
+          <div class="panel-heading diagram-heading">
+            <div><p class="eyebrow">LIVE ARCHITECTURE MAP</p><h2 id="diagramTitle">Your web server is online</h2></div>
+            <div class="run-controls">
+              <button id="playBtn" class="btn btn-primary" type="button">▶ Play</button>
+              <button id="pauseBtn" class="btn btn-quiet" type="button" disabled>Ⅱ Pause</button>
+              <button id="resetBtn" class="btn btn-quiet" type="button">↺ Reset</button>
+            </div>
+          </div>
+          <div class="diagram-scroll" tabindex="0" aria-label="Scrollable architecture diagram">
+            <svg id="architecture" viewBox="0 0 1100 620" role="img" aria-labelledby="svgTitle svgDesc">
+              <title id="svgTitle">EC2, CloudWatch alarm, SNS topic and email notification architecture</title>
+              <desc id="svgDesc">Animated educational architecture showing CPU metric packets flowing from EC2 to CloudWatch, alarm signals flowing to SNS, and an email notification reaching Santhosh.</desc>
+              <defs>
+                <linearGradient id="ec2Grad" x1="0" x2="1"><stop offset="0" stop-color="#123a68"/><stop offset="1" stop-color="#10284b"/></linearGradient>
+                <linearGradient id="cwGrad" x1="0" x2="1"><stop offset="0" stop-color="#35245e"/><stop offset="1" stop-color="#241b46"/></linearGradient>
+                <linearGradient id="snsGrad" x1="0" x2="1"><stop offset="0" stop-color="#164c50"/><stop offset="1" stop-color="#10383e"/></linearGradient>
+                <filter id="glow"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                <marker id="arrowBlue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#59a8ff"/></marker>
+                <marker id="arrowGold" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#f6bd60"/></marker>
+                <marker id="arrowTeal" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#51d8c0"/></marker>
+              </defs>
+              <g opacity=".35" stroke="#29405e" stroke-width="1">
+                <path d="M0 70H1100 M0 140H1100 M0 210H1100 M0 280H1100 M0 350H1100 M0 420H1100 M0 490H1100 M0 560H1100"/>
+                <path d="M70 0V620 M140 0V620 M210 0V620 M280 0V620 M350 0V620 M420 0V620 M490 0V620 M560 0V620 M630 0V620 M700 0V620 M770 0V620 M840 0V620 M910 0V620 M980 0V620 M1050 0V620"/>
+              </g>
+              <!-- Connection wires are intentionally drawn before service cards. -->
+              <g fill="none" stroke-linecap="round">
+                <path class="wire" d="M250 180 C285 180 292 180 326 180" stroke="#59a8ff" marker-end="url(#arrowBlue)"/>
+                <path class="wire" d="M500 180 C535 180 535 180 570 180" stroke="#9a7bff" marker-end="url(#arrowBlue)"/>
+                <path class="wire" d="M730 245 V305" stroke="#f6bd60" marker-end="url(#arrowGold)"/>
+                <path class="wire" d="M815 375 C850 375 858 375 890 375" stroke="#51d8c0" marker-end="url(#arrowTeal)"/>
+                <path class="wire" d="M650 440 V490 H730 V520" stroke="#51d8c0" marker-end="url(#arrowTeal)"/>
+              </g>
+              <g class="revealed" data-reveal="0">
+                <rect x="30" y="105" width="220" height="150" rx="18" fill="url(#ec2Grad)" stroke="#368be2" stroke-width="1.5"/>
+                <rect x="48" y="122" width="44" height="44" rx="12" fill="#1f5c97"/>
+                <text x="70" y="151" text-anchor="middle" font-size="25" fill="#d9edff">▣</text>
+                <text x="106" y="140" fill="#b8d9ff" font-size="12" font-weight="700">AMAZON EC2</text>
+                <text x="106" y="158" fill="#fff" font-size="17" font-weight="700">Web server</text>
+                <rect x="48" y="183" width="184" height="50" rx="10" fill="#0b1c34" stroke="#315a85"/>
+                <text x="60" y="202" fill="#8bb9ed" font-size="11">CPU UTILIZATION</text>
+                <text id="svgCpu" x="60" y="223" fill="#71e2b0" font-size="22" font-weight="700">25%</text>
+                <rect x="128" y="211" width="88" height="7" rx="4" fill="#213d5d"/>
+                <rect id="svgCpuBar" x="128" y="211" width="22" height="7" rx="4" fill="#71e2b0"/>
+              </g>
+              <g class="revealed" data-reveal="1">
+                <rect x="326" y="105" width="174" height="150" rx="18" fill="#171f3b" stroke="#7d70d8" stroke-width="1.5"/>
+                <text x="348" y="132" fill="#bdb3ff" font-size="11" font-weight="700">METRIC STREAM</text>
+                <text x="348" y="154" fill="#fff" font-size="16" font-weight="700">CPUUtilization</text>
+                <path id="miniChart" d="M348 218 L370 207 L392 213 L414 184 L436 195 L458 170 L480 180" fill="none" stroke="#a79aff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M348 230H480" stroke="#51487d" stroke-width="1"/>
+                <text x="348" y="243" fill="#aaa3d5" font-size="10">SIMULATED METRIC DATA</text>
+              </g>
+              <g class="revealed" data-reveal="2">
+                <rect x="570" y="95" width="260" height="150" rx="18" fill="url(#cwGrad)" stroke="#9b81ff" stroke-width="1.5"/>
+                <circle cx="600" cy="124" r="12" fill="#7960db"/><text x="600" y="129" text-anchor="middle" fill="#fff" font-size="15">◷</text>
+                <text x="621" y="121" fill="#c8baff" font-size="11" font-weight="700">AMAZON CLOUDWATCH</text>
+                <text x="590" y="153" fill="#fff" font-size="17" font-weight="700">CPU alarm</text>
+                <text x="590" y="173" fill="#c2b8f6" font-size="11">CPUUtilization > threshold</text>
+                <rect x="590" y="190" width="116" height="34" rx="8" fill="#172b35" stroke="#3eaa84"/>
+                <text x="648" y="211" text-anchor="middle" fill="#71e2b0" font-size="12" font-weight="700">METRIC + RULE</text>
+                <rect id="svgAlarmPill" x="716" y="190" width="96" height="34" rx="8" fill="#153e30" stroke="#3eaa84"/>
+                <text id="svgAlarmState" x="764" y="211" text-anchor="middle" fill="#71e2b0" font-size="12" font-weight="700">OK</text>
+              </g>
+              <g class="revealed" data-reveal="5">
+                <rect x="570" y="305" width="245" height="135" rx="18" fill="#29233b" stroke="#f6bd60" stroke-width="1.5"/>
+                <text x="592" y="334" fill="#f6bd60" font-size="11" font-weight="700">ALARM ACTION</text>
+                <text x="592" y="359" fill="#fff" font-size="16" font-weight="700">State-change signal</text>
+                <text x="592" y="381" fill="#c6bddb" font-size="12">Only configured states</text>
+                <text x="592" y="398" fill="#c6bddb" font-size="12">publish to the topic</text>
+                <circle cx="780" cy="414" r="7" fill="#f6bd60" class="pulse-dot"/>
+              </g>
+              <g class="revealed" data-reveal="6">
+                <rect x="890" y="305" width="180" height="135" rx="18" fill="url(#snsGrad)" stroke="#51d8c0" stroke-width="1.5"/>
+                <text x="910" y="333" fill="#81f0dd" font-size="11" font-weight="700">AMAZON SNS</text>
+                <text x="910" y="356" fill="#fff" font-size="16" font-weight="700">Alert topic</text>
+                <text x="910" y="378" fill="#a9e8df" font-size="11">santhosh-ec2-</text>
+                <text x="910" y="393" fill="#a9e8df" font-size="11">cpu-alerts</text>
+                <rect x="910" y="407" width="139" height="20" rx="7" fill="#0c3036" stroke="#337f78"/>
+                <text id="svgSnsStatus" x="979" y="421" fill="#75ead5" text-anchor="middle" font-size="10" font-weight="700">WAITING</text>
+              </g>
+              <g class="revealed" data-reveal="7">
+                <rect x="570" y="490" width="500" height="92" rx="18" fill="#122c3b" stroke="#51d8c0" stroke-width="1.5"/>
+                <rect x="590" y="509" width="48" height="43" rx="9" fill="#175c5c"/>
+                <path d="M598 519 L614 532 L630 519 M598 519H630V542H598Z" fill="none" stroke="#8cf3e0" stroke-width="2" stroke-linejoin="round"/>
+                <text x="653" y="518" fill="#83e8d9" font-size="11" font-weight="700">EMAIL SUBSCRIPTION</text>
+                <text x="653" y="540" fill="#fff" font-size="16" font-weight="700">Santhosh’s inbox</text>
+                <text id="svgEmailStatus" x="653" y="560" fill="#9acdc8" font-size="12">No notification yet</text>
+                <rect x="915" y="513" width="130" height="45" rx="10" fill="#0b202d" stroke="#2b5d65"/>
+                <text x="980" y="531" fill="#8fbcb8" font-size="10" text-anchor="middle">DELIVERY STATUS</text>
+                <text id="svgDelivery" x="980" y="548" fill="#83e8d9" font-size="11" font-weight="700" text-anchor="middle">IDLE</text>
+              </g>
+              <!-- Animated packets are drawn last so they remain visible above components. -->
+              <g id="packetLayer" class="revealed" data-reveal="1">
+                <circle class="metric-packet packet" r="6" fill="#7dc2ff" filter="url(#glow)"><animateMotion dur="2.5s" repeatCount="indefinite" path="M250 180 C285 180 292 180 326 180"/></circle>
+                <circle class="metric-packet packet" r="5" fill="#b6a4ff" filter="url(#glow)"><animateMotion dur="3s" begin="-1.4s" repeatCount="indefinite" path="M500 180 C535 180 535 180 570 180"/></circle>
+                <circle id="alarmPacket" class="alarm-packet packet" r="6" fill="#f6bd60" filter="url(#glow)" visibility="hidden"><animateMotion dur="1.1s" repeatCount="1" fill="freeze" path="M730 245 V305"/></circle>
+                <circle id="emailPacket" class="email-packet packet" r="6" fill="#51d8c0" filter="url(#glow)" visibility="hidden"><animateMotion dur="1.3s" repeatCount="1" fill="freeze" path="M815 375 C850 375 858 375 890 375"/></circle>
+              </g>
+              <text x="30" y="42" fill="#7891b1" font-size="11" letter-spacing="2">METRICS → EVALUATION → NOTIFICATION</text>
+            </svg>
+          </div>
+          <div class="diagram-legend" aria-label="Moving-object legend">
+            <button type="button" class="legend-item" data-legend="Metric packet"><span class="legend-dot blue"></span>Metric packet</button>
+            <button type="button" class="legend-item" data-legend="Alarm signal"><span class="legend-dot gold"></span>Alarm signal</button>
+            <button type="button" class="legend-item" data-legend="Envelope"><span class="legend-dot teal"></span>Envelope</button>
+            <button type="button" class="legend-item" data-legend="CPU gauge"><span class="legend-dot green"></span>CPU gauge</button>
+            <button type="button" class="legend-item" data-legend="Gold dashed line"><span class="legend-line"></span>Threshold</button>
+            <span id="legendHelp" class="legend-help" role="status">Select a legend item to learn what it means.</span>
+          </div>
+        </section>
+
+        <section class="caption-card panel">
+          <div class="caption-top"><span id="captionStep" class="step-chip">STEP 01</span><span class="tag">THE STORY CONTINUES</span></div>
+          <h2 id="stepHeadline">A website needs a home</h2>
+          <div class="caption-grid">
+            <article><span class="caption-icon plain">✦</span><h3>In plain words</h3><p id="plainWords">Think of EC2 as a computer rented in the cloud. It runs Ravi’s online shopping website.</p></article>
+            <article><span class="caption-icon technical">⌘</span><h3>Technical name</h3><p id="technicalName">Amazon Elastic Compute Cloud (Amazon EC2) provides resizable virtual computing capacity.</p></article>
+            <article><span class="caption-icon picture">◉</span><h3>Watch the picture</h3><p id="watchPicture">Customer requests reach the web server and the CPU meter becomes active.</p></article>
+          </div>
+        </section>
+
+        <section class="dashboard panel">
+          <div class="panel-heading"><div><p class="eyebrow">SIMULATED TELEMETRY</p><h2>Monitoring dashboard</h2></div><span class="live-label"><i class="dot green"></i> LOCAL LIVE VIEW</span></div>
+          <div class="metrics-grid">
+            <article class="metric-card cpu-card"><div class="metric-label">Current CPU utilization <span>↗</span></div><div class="metric-value"><strong id="cpuValue">25</strong><span>%</span></div><div class="meter-track"><div id="cpuMeter" class="meter-fill" style="width:25%"></div></div><div class="metric-foot"><span id="cpuBand">Normal load</span><span>0–100%</span></div></article>
+            <article class="metric-card"><div class="metric-label">Alarm state <span>◷</span></div><div id="alarmStateCard" class="state-value"><i class="state-indicator ok"></i><strong>OK</strong></div><p id="alarmDetail" class="metric-note">Condition is not breached</p><div class="metric-foot"><span>Threshold</span><strong id="thresholdReadout">80%</strong></div></article>
+            <article class="metric-card"><div class="metric-label">Instance health <span>▣</span></div><div class="state-value"><i class="state-indicator ok"></i><strong>Running</strong></div><p class="metric-note">Instance status check: simulated</p><div class="metric-foot"><span>Instance</span><strong>i-example123</strong></div></article>
+            <article class="metric-card"><div class="metric-label">SNS notification <span>✉</span></div><div id="deliveryValue" class="state-value"><i class="state-indicator neutral"></i><strong>Idle</strong></div><p id="deliveryNote" class="metric-note">No simulated message sent</p><div class="metric-foot"><span>Topic</span><strong>santhosh-ec2-cpu-alerts</strong></div></article>
+          </div>
+          <div class="chart-and-controls">
+            <div class="chart-card">
+              <div class="chart-title"><div><h3>CPU utilization history</h3><p>Example readings · simulated educational data</p></div><span id="chartCurrent" class="chart-current">25%</span></div>
+              <div class="chart-wrap"><svg id="cpuChart" viewBox="0 0 620 210" role="img" aria-label="Simulated CPU utilization history chart">
+                <g class="chart-grid"><path d="M48 20H600 M48 60H600 M48 100H600 M48 140H600 M48 180H600"/></g>
+                <g class="chart-axis"><text x="8" y="24">100%</text><text x="17" y="64">75%</text><text x="17" y="104">50%</text><text x="17" y="144">25%</text><text x="25" y="184">0%</text></g>
+                <line id="thresholdLine" x1="48" y1="52" x2="600" y2="52" stroke="#f6bd60" stroke-width="2" stroke-dasharray="7 6"/>
+                <text id="thresholdLabel" x="595" y="44" text-anchor="end" fill="#f6bd60" font-size="10">THRESHOLD 80%</text>
+                <path id="chartArea" d="" fill="url(#chartFill)" opacity=".25"/>
+                <defs><linearGradient id="chartFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#6d91ff"/><stop offset="1" stop-color="#6d91ff" stop-opacity="0"/></linearGradient></defs>
+                <path id="chartPath" d="" fill="none" stroke="#8da4ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle id="chartPoint" cx="600" cy="140" r="5" fill="#79e5b6" stroke="#102238" stroke-width="3"/>
+                <g class="chart-axis"><text x="48" y="204">Earlier</text><text x="600" y="204" text-anchor="end">Now</text></g>
+              </svg></div>
+            </div>
+            <div class="controls-card">
+              <div class="control-heading"><div><h3>Run a scenario</h3><p>Change the load and observe the alarm.</p></div><span class="control-icon">⌁</span></div>
+              <label class="range-label" for="cpuSlider"><span>CPU utilization</span><strong id="cpuSliderLabel">25%</strong></label>
+              <input id="cpuSlider" type="range" min="0" max="100" value="25" step="1" aria-describedby="sliderHint">
+              <div id="sliderHint" class="range-scale"><span>0%</span><span>50%</span><span>100%</span></div>
+              <div class="preset-row">
+                <button type="button" class="preset" data-cpu="25">Normal <strong>25%</strong></button>
+                <button type="button" class="preset" data-cpu="55">Moderate <strong>55%</strong></button>
+                <button type="button" class="preset" data-cpu="85">High <strong>85%</strong></button>
+                <button type="button" class="preset" data-cpu="96">Critical <strong>96%</strong></button>
+              </div>
+              <div class="divider"></div>
+              <div class="config-title"><h3>Alarm configuration</h3><span class="tag">SIMULATED</span></div>
+              <label class="field-label" for="alarmName">Alarm name</label><input id="alarmName" class="text-input" value="ec2-cpu-high-alarm" maxlength="64">
+              <div class="two-fields"><div><label class="field-label" for="thresholdSlider">Threshold <strong id="thresholdLabel">80%</strong></label><input id="thresholdSlider" type="range" min="1" max="100" value="80" step="1"></div>
+              <div><label class="field-label" for="periodSelect">Metric period</label><select id="periodSelect" class="text-input"><option value="60">1 minute</option><option value="300" selected>5 minutes</option><option value="900">15 minutes</option></select></div></div>
+              <div class="two-fields"><div><label class="field-label" for="evalPeriods">Evaluation periods</label><select id="evalPeriods" class="text-input"><option value="1">1 period</option><option value="2" selected>2 periods</option><option value="3">3 periods</option></select></div>
+              <div><label class="field-label" for="comparison">Comparison</label><select id="comparison" class="text-input"><option value="gt">Greater than (&gt;)</option><option value="gte">Greater than or equal (≥)</option></select></div></div>
+              <div class="action-grid"><button id="evaluateBtn" class="btn btn-primary" type="button">Evaluate alarm</button><button id="simulateAlarmBtn" class="btn btn-danger" type="button">⚡ Simulate alarm</button><button id="testNotifyBtn" class="btn btn-teal" type="button">✉ Send test notification</button><button id="recoverBtn" class="btn btn-quiet" type="button">↘ Recover server load</button></div>
+              <p class="fine-print">Simplified rule: the configured number of consecutive local samples must breach the threshold. This is an educational model, not the full CloudWatch evaluation engine.</p>
+            </div>
+          </div>
+          <div id="eventLog" class="event-log" aria-live="polite"><div class="event-icon">✓</div><div><strong>Simulation ready</strong><p>CPU is at 25%. Explore a preset or adjust the slider.</p></div><time>NOW</time></div>
+        </section>
+
+        <section id="emailCard" class="email-card panel" hidden>
+          <div class="email-head"><div class="mail-icon">✉</div><div><p class="eyebrow">SIMULATED EMAIL · NOT SENT</p><h2>ALERT — EC2 CPU Utilization High</h2><p>To: santhosh@example.invalid</p></div><span class="email-badge">DEMO MESSAGE</span></div>
+          <div class="email-body"><p>Your EC2 instance has exceeded the configured CPU utilization threshold.</p><dl><div><dt>Instance</dt><dd>i-example123</dd></div><div><dt>Metric</dt><dd>CPUUtilization</dd></div><div><dt>Observed CPU</dt><dd id="emailCpu">92%</dd></div><div><dt>Configured threshold</dt><dd id="emailThreshold">80%</dd></div><div><dt>Alarm state</dt><dd>ALARM</dd></div></dl><p>Please investigate the workload and take appropriate action.</p></div>
+          <div class="email-actions"><span id="ackStatus">Waiting for acknowledgement</span><button id="ackBtn" class="btn btn-teal" type="button">✓ Acknowledge alert</button></div>
+        </section>
+
+        <section class="troubleshoot panel">
+          <div><p class="eyebrow">FIELD NOTES</p><h2>Cloud Support Engineer checklist</h2><p>When CPU alarms fire, investigate before assuming the instance is broken.</p></div>
+          <ul><li>Confirm the instance ID, metric, statistic, period, and threshold.</li><li>Check the alarm history and whether enough datapoints were evaluated.</li><li>Review application logs, process activity, and recent traffic changes.</li><li>Verify the alarm action, SNS topic, email subscription confirmation, and delivery status.</li><li>Remember: notification is not remediation. Scaling or automated recovery needs additional configuration.</li></ul>
+        </section>
+      </section>
+    </div>
+    <footer><span>Built for cloud learners · <strong>#BuildwithCloudmessenger</strong></span><span>Educational simulation · No AWS calls · <a href="README.md">Project README</a></span></footer>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="js/app.js"></script>
+</body>
+</html>
